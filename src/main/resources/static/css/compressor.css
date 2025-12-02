@@ -1,0 +1,88 @@
+body {
+  background-color: #000;
+  color: #eee;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.card {
+  background-color: #111;
+  border: 2px solid #E10600;
+  box-shadow: 0 0 15px #E10600;
+  color: #eee;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.card:hover {
+  box-shadow: 0 0 30px #ff3b3b;
+}
+
+.row.g-4 {
+  display: flex;
+  align-items: stretch;
+}
+.table-dark {
+  background-color: #292c30;
+}
+.table-borderless td,
+.table-borderless th {
+  border: none;
+}
+
+.unit-label{
+    color: #ff4444 !important;;
+    font-size: 1.5rem;
+}
+
+
+.min-max-cell {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 0;
+  height: 70px;
+}
+.current-value {
+  font-size: 4rem;
+  font-weight: 700;
+  color: #ff4444;
+  line-height: 1;
+}
+.min-value, .max-value {
+  font-size: 1.2rem;
+  color: #aaa;
+  align-self: flex-end;
+}
+.minmax-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+.minmax-val {
+  font-size: 1.1rem;
+  color: #aaa;
+  margin-bottom: 2px;
+  margin-top: 0;
+}
+.minmax-label {
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: 0;
+  line-height: 1;
+  letter-spacing: 1px;
+}
+
+.table-cell-borders td {
+  border-right: 2px solid #6c757d !important;
+  border-bottom: 2px solid #6c757d !important;
+}
+.table-cell-borders tr:last-child td {
+  border-bottom: none !important;
+}
+.table-cell-borders td:last-child {
+  border-right: none !important;
+}
+
+

@@ -1,0 +1,103 @@
+body {
+  background-color: #000;
+  color: #eee;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.card {
+  background-color: #111;
+  border: 2px solid #E10600;
+  box-shadow: 0 0 15px #E10600;
+  color: #eee;
+  padding: 20px 24px;
+}
+.card:hover {
+  box-shadow: 0 0 30px #ff3b3b;
+}
+
+
+.card-title-main {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #E10600;
+  margin-bottom: 1rem;
+}
+.station-name {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #E10600;
+  margin-bottom: 0.5rem;
+}
+
+
+.row.g-4 {
+  align-items: stretch;
+}
+.col-lg-5.d-flex {
+  gap: 1rem;
+}
+
+
+.stats-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.stats-list li {
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  background: #1a1d22;
+  border-bottom: 1px solid #2a2e35;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.stats-list li:last-child {
+  border-bottom: none;
+}
+
+
+.stats-list li:nth-child(odd) {
+  background: #20242a;
+}
+
+
+.stats-list li:hover {
+  background: #2a3038;
+}
+
+.boss-item {
+  font-weight: 700;
+  background: #1f262e;
+  border-left: 3px solid #E10600;
+}
+
+
+.bottom-block {
+  border-top: 1px solid #2a2e35;
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.shift-info {
+  font-size: 0.95rem;
+  color: #ccc;
+  font-weight: 500;
+}
