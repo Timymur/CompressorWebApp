@@ -9,6 +9,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -43,4 +45,7 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public List<User> findByStationId(Long id) {
+        return userRepository.findByStation_Id(id);
+    }
 }

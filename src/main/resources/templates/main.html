@@ -13,7 +13,9 @@
 
         <div class="col-12 col-lg-7">
             <div class="card h-100">
-                <h1 class="card-title-main">Станция АГНКС-1 г. Ноябрьск</h1>
+                <h1 class="card-title-main"
+                    th:text="'Станция АГНКС-' + ${station.serialNumber} + ' г. ' + ${station.city}">
+                </h1>
                 <div>
 
                     <div class="section-header">
@@ -22,17 +24,12 @@
                     </div>
 
                     <ul class="stats-list">
-<!--                        <li th:each="worker : ${workers}"-->
-<!--                            th:text="${worker.role} + ': ' + ${worker.surname}"-->
-<!--                            th:classappend="${worker.role == 'Начальник'} ? ' boss-item'">-->
-<!--                        </li>-->
 
-                        <li class="boss-item" >Начальник:  Имя фамилия отчество</li>
-                        <li>Машинист: Имя фамилия отчество</li>
-                        <li>Машинист: Имя фамилия отчество </li>
-                        <li>Машинист: Имя фамилия отчество</li>
-                        <li>Машинист: Имя фамилия отчество</li>
-                        <li>Машинист: Имя фамилия отчество</li>
+                        <li th:each="worker : ${workers}"
+                            th:text="${worker.jobTitle} + ': ' + ${worker.lastName}"
+                            th:classappend="${worker.jobTitle} == 'Начальник' ? ' boss-item' : ''">
+                        </li>
+
                     </ul>
                 </div>
 
@@ -52,10 +49,10 @@
                 <h1 class="card-title-main">Профиль</h1>
                 <div class="section-title">Данные</div>
                 <ul class="stats-list">
-                    <li>Login: Login</li>
-                    <li>Name: name</li>
-                    <li>surname: surname</li>
-                    <li>Job title: Машинист</li>
+                    <li th:text="'Логин: ' + ${user.login}"> </li>
+                    <li th:text="'Имя: ' + ${user.firstName}" ></li>
+                    <li th:text="'Фамилия: ' + ${user.lastName}"></li>
+                    <li th:text="'Должность: ' + ${user.jobTitle}" > </li>
                 </ul>
 
                 <div class="section-title bottom-block">Действия</div>
