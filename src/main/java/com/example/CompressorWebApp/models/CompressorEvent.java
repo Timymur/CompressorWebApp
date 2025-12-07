@@ -2,15 +2,22 @@ package com.example.CompressorWebApp.models;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 @Entity
 public class CompressorEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private LocalDate date;
+    private LocalTime time;
+
+
     @ManyToOne
-    @JoinColumn(name = "shift_id")
-    private Shift shift;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "parameter_id")
@@ -24,10 +31,13 @@ public class CompressorEvent {
     public CompressorEvent() {
 
     }
-    public CompressorEvent(Shift shift, Parameter parameter, Compressor compressor) {
-        this.shift = shift;
+
+    public CompressorEvent(User user, Parameter parameter, Compressor compressor, LocalDate date, LocalTime time) {
+        this.user = user;
         this.parameter = parameter;
         this.compressor = compressor;
+        this.date = date;
+        this.time = time;
     }
 
     public Long getId() {
@@ -37,14 +47,31 @@ public class CompressorEvent {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public Shift getShift() {
-        return shift;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setShift(Shift shift) {
-        this.shift = shift;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
 
     public Parameter getParameter() {
         return parameter;

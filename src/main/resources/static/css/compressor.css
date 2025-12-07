@@ -2,38 +2,55 @@ body {
   background-color: #000;
   color: #eee;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
 }
+
+
+.app-shell {
+  max-width: 420px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+}
+
+
+.app-screen {
+  flex: 1;
+}
+
+
 .card {
   background-color: #111;
   border: 2px solid #E10600;
   box-shadow: 0 0 15px #E10600;
   color: #eee;
-  height: 100%;
+  padding: 20px 24px;
+  min-height: calc(100vh - 30px);
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }
 .card:hover {
   box-shadow: 0 0 30px #ff3b3b;
 }
 
-.row.g-4 {
+
+.screen-content {
+  flex: 1;
   display: flex;
-  align-items: stretch;
+  flex-direction: column;
 }
+
+
 .table-dark {
   background-color: #292c30;
 }
-.table-borderless td,
-.table-borderless th {
-  border: none;
-}
 
-.unit-label{
-    color: #ff4444 !important;;
-    font-size: 1.5rem;
+.unit-label {
+  color: #ff4444 !important;
+  font-size: 1.5rem;
 }
-
 
 .min-max-cell {
   display: flex;
@@ -43,33 +60,30 @@ body {
   padding: 0;
   height: 70px;
 }
+
 .current-value {
   font-size: 4rem;
   font-weight: 700;
   color: #ff4444;
   line-height: 1;
 }
-.min-value, .max-value {
-  font-size: 1.2rem;
-  color: #aaa;
-  align-self: flex-end;
-}
+
 .minmax-col {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
 }
+
 .minmax-val {
   font-size: 1.1rem;
   color: #aaa;
   margin-bottom: 2px;
-  margin-top: 0;
 }
+
 .minmax-label {
   font-size: 0.85rem;
   color: #888;
-  margin-top: 0;
   line-height: 1;
   letter-spacing: 1px;
 }
@@ -86,3 +100,60 @@ body {
 }
 
 
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  background-color: transparent;
+  border-top: 1px solid #2a2e35;
+  padding: 6px 0 0;
+  margin-top: 0.5rem;
+}
+
+.bottom-nav.inside-card {
+  margin-top: auto;
+}
+
+.bottom-nav .nav-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #aaa;
+  font-size: 0.8rem;
+  padding: 4px 0;
+}
+
+.bottom-nav .nav-btn.active {
+  color: #E10600;
+  font-weight: 600;
+}
+
+
+.top-tabs {
+  display: flex;
+  border-bottom: 1px solid #2a2e35;
+}
+.top-tabs .tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #bbb;
+  font-size: 0.8rem;
+  padding: 6px 4px;
+}
+.top-tabs .tab-btn.active {
+  color: #E10600;
+  border-bottom: 2px solid #E10600;
+}
+
+.tab-pane {
+  display: none;
+}
+.tab-pane.active {
+  display: block;
+}
+
+
+.section-title-small {
+  color: #E10600;
+  font-size: 1rem;
+}

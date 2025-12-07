@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <title>Новый параметр</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+
+<main class="app-shell">
+    <section class="app-screen active">
+        <div class="card w-100">
+            <h1 class="card-title-main text-center mb-4">Добавить параметр</h1>
+
+            <form th:action="@{/addParameter}" method="post">
+
+                <div class="mb-3">
+                    <label for="parameterName" class="form-label auth-label">Название параметра</label>
+                    <input type="text" class="form-control auth-input" id="mparameterName" name="parameterName" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="unitOfMeasurement" class="form-label auth-label">Единица измерения</label>
+                    <select id="unitOfMeasurement" name="unitOfMeasurement" class="form-select auth-input">
+                        <option value="T,°C">T,°C</option>
+                        <option value="P, бар">P, бар</option>
+                        <option value="%">Процент, %</option>
+                        <option value="час.">Время, час.</option>
+                    </select>
+                </div>
+
+                <div th:if="${errorMessage}" class="auth-error" th:text="${errorMessage}"></div>
+
+                <button type="submit" class="btn w-100 auth-btn">
+                    Добавить
+                </button>
+
+            </form>
+        </div>
+    </section>
+</main>
+</body>
+</html>

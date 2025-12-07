@@ -59,5 +59,11 @@ public class MainController {
         return "main";
     }
 
+    @GetMapping("/logout")
+    public String Logout(Model model) {
+        model.addAttribute("title", "Выход");
+        return "logout";
+    }
+
 
 }

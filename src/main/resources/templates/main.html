@@ -1,71 +1,152 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <title th:text="${title}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 <body>
-<header th:insert="blocks/header :: header"></header>
-<main class="container my-4">
-    <div class="row g-4">
 
-        <div class="col-12 col-lg-7">
-            <div class="card h-100">
+<main class="app-shell">
+
+    <!-- ЭКРАН СТАНЦИИ -->
+    <section id="screen-station" class="app-screen active">
+        <div class="card">
+
+            <div class="screen-content">
                 <h1 class="card-title-main"
-                    th:text="'Станция АГНКС-' + ${station.serialNumber} + ' г. ' + ${station.city}">
+                    th:text="'АГНКС-' + ${station.serialNumber}">
                 </h1>
-                <div>
+                <h1 class="card-title-main"
+                    th:text=" ${station.city}">
+                </h1>
 
+
+                <div>
                     <div class="section-header">
                         <h4 class="section-title mb-0">Рабочий состав</h4>
-                        <span class="shift-info">На смене: Машинист Имя Фамилия</span>
                     </div>
 
                     <ul class="stats-list">
-
                         <li th:each="worker : ${workers}"
-                            th:text="${worker.jobTitle} + ': ' + ${worker.lastName}"
-                            th:classappend="${worker.jobTitle} == 'Начальник' ? ' boss-item' : ''">
+                            th:if="${worker.jobTitle} == 'Начальник'"
+                            th:text="${worker.jobTitle} + ': ' + ${worker.lastName} + ' ' + ${worker.firstName}">
                         </li>
-
+                        <li th:each="worker : ${workers}"
+                            th:if="${worker.jobTitle} != 'Начальник'"
+                            th:text="${worker.jobTitle} + ': ' + ${worker.lastName} + ' ' + ${worker.firstName}">
+                        </li>
                     </ul>
+
+                    <div class="on-shift-user"> На смене: Машинист Имя Фамилия</div>
                 </div>
 
-
                 <div class="bottom-block mt-4">
-                    <h4 class="section-title">Оборудование</h4>
-                    <ul class="stats-list">
-                        <li>Компрессор 1 SW-200F4,9-EM</li>
-                        <li>Компрессор 2 SW-200F4,9-EM</li>
+                    <div class="section-header">
+                        <h4 class="section-title mb-0">Оборудование</h4>
+
+                        <a href="/addCompressor"
+                           class="link-add-compressor"
+                           sec:authorize="hasAnyRole('MANAGER','ADMIN')">
+                            Добавить компрессор
+                        </a>
+
+                    </div>
+
+                    <ul class="stats-list link-list">
+                        <li th:onclick="'location.href=\'' + '/' + '\';'">
+                            Компрессор 1 SW-200F4,9-EM
+                        </li>
+                        <li th:onclick="'location.href=\'' + '/compressor' + '\';'">
+                            Компрессор 2 SW-200F4,9-EM
+                        </li>
                     </ul>
                 </div>
             </div>
-        </div>
 
-        <div class="col-12 col-lg-5 d-flex flex-column">
-            <div class="card flex-fill mb-3">
+
+            <nav class="bottom-nav inside-card">
+                <button type="button" class="nav-btn active" data-target="screen-station">Станция</button>
+                <button type="button" class="nav-btn" data-target="screen-profile">Профиль</button>
+            </nav>
+
+        </div>
+    </section>
+
+
+    <section id="screen-profile" class="app-screen">
+        <div class="card">
+
+            <div class="screen-content">
                 <h1 class="card-title-main">Профиль</h1>
+
                 <div class="section-title">Данные</div>
                 <ul class="stats-list">
-                    <li th:text="'Логин: ' + ${user.login}"> </li>
-                    <li th:text="'Имя: ' + ${user.firstName}" ></li>
+                    <li th:text="'Логин: ' + ${user.login}"></li>
+                    <li th:text="'Имя: ' + ${user.firstName}"></li>
                     <li th:text="'Фамилия: ' + ${user.lastName}"></li>
-                    <li th:text="'Должность: ' + ${user.jobTitle}" > </li>
+                    <li th:text="'Должность: ' + ${user.jobTitle}"></li>
                 </ul>
 
                 <div class="section-title bottom-block">Действия</div>
-                <ul class="stats-list">
-                    <li>Заступить на смену/ Закрыть смену</li>
+                <ul class="stats-list link-list">
+                    <li sec:authorize="hasAnyRole('USER')">Заступить на смену / Закрыть смену</li>
+
+                    <li sec:authorize="hasAnyRole('MANAGER','ADMIN')"
+                        th:onclick="'location.href=\'' + '/addModel' + '\';'">
+                        Добавить модель
+                    </li>
+
+                    <li sec:authorize="hasAnyRole('MANAGER','ADMIN')"
+                        th:onclick="'location.href=\'' + '/editModel' + '\';'">
+                        Редактировать модели
+                    </li>
+
+                    <li sec:authorize="hasAnyRole('MANAGER','ADMIN')"
+                        th:onclick="'location.href=\'' + '/addParameter' + '\';'">
+                        Добавить параметр
+                    </li>
+
                     <li>Изменить данные</li>
-                    <li>Выйти с аккаунта</li>
+                    <li th:onclick="'location.href=\'' + '/logout' + '\';'">
+                        Выйти с аккаунта
+                    </li>
+
                 </ul>
             </div>
 
-        </div>
+            <nav class="bottom-nav inside-card">
+                <button type="button" class="nav-btn" data-target="screen-station">Станция</button>
+                <button type="button" class="nav-btn active" data-target="screen-profile">Профиль</button>
+            </nav>
 
-    </div>
+        </div>
+    </section>
+
 </main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const buttons = document.querySelectorAll('.bottom-nav .nav-btn');
+        const screens = document.querySelectorAll('.app-screen');
+
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetId = btn.dataset.target;
+
+                screens.forEach(s => s.classList.toggle('active', s.id === targetId));
+
+
+                buttons.forEach(b => {
+                    const isSameTarget = b.dataset.target === targetId;
+                    b.classList.toggle('active', isSameTarget);
+                });
+            });
+        });
+    });
+</script>
 </body>
 </html>

@@ -19,4 +19,8 @@ public class CompressorService {
     public List<Compressor> findByStationId(Long id) {
         return compressorRepository.findByStationId(id);
     }
+
+    public void save(Compressor compressor) {
+        compressorRepository.save(compressor);
+    }
 }
