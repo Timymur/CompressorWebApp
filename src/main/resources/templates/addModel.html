@@ -13,23 +13,13 @@
 <main class="app-shell">
     <section class="app-screen active">
         <div class="card w-100">
-            <h1 class="card-title-main text-center mb-4">Добавить параметр</h1>
+            <h1 class="card-title-main text-center mb-4">Добавить модель</h1>
 
-            <form th:action="@{/addParameter}" method="post">
-
-                <div class="mb-3">
-                    <label for="parameterName" class="form-label auth-label">Название параметра</label>
-                    <input type="text" class="form-control auth-input" id="mparameterName" name="parameterName" required>
-                </div>
+            <form th:action="@{/addModel}" method="post">
 
                 <div class="mb-3">
-                    <label for="unitOfMeasurement" class="form-label auth-label">Единица измерения</label>
-                    <select id="unitOfMeasurement" name="unitOfMeasurement" class="form-select auth-input">
-                        <option value="T,°C">T,°C</option>
-                        <option value="P, бар">P, бар</option>
-                        <option value="%">Процент, %</option>
-                        <option value="час.">Время, час.</option>
-                    </select>
+                    <label for="modelName" class="form-label auth-label">Модель</label>
+                    <input type="text" class="form-control auth-input" id="modelName" name="modelName" required>
                 </div>
 
                 <div th:if="${errorMessage}" class="auth-error" th:text="${errorMessage}"></div>
@@ -44,6 +34,7 @@
 
             </form>
         </div>
+
     </section>
 </main>
 </body>

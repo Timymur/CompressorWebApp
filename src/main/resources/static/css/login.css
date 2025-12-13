@@ -44,6 +44,7 @@ body {
 }
 
 .auth-btn {
+  margin-top: 10px;
   font-weight: 600;
   letter-spacing: 0.5px;
   background-color: #E10600;

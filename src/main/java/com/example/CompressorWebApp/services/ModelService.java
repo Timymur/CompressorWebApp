@@ -3,6 +3,7 @@ package com.example.CompressorWebApp.services;
 
 
 import com.example.CompressorWebApp.models.CompressorModel;
+import com.example.CompressorWebApp.models.Parameter;
 import com.example.CompressorWebApp.repositories.ModelRepository;
 import org.springframework.stereotype.Service;
 
@@ -26,4 +27,13 @@ public class ModelService {
         return modelRepository.findById(modelId);
     }
 
+    public boolean existsByModelName(String modelName){
+        return modelRepository.existsByModelName(modelName);
+    }
+    public Optional<CompressorModel> findByModelName(String modelName){
+        return modelRepository.findByModelName(modelName);
+    }
+    public void save(CompressorModel compressorModel) {
+        modelRepository.save(compressorModel);
+    }
 }
