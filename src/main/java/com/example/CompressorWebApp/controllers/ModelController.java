@@ -35,8 +35,8 @@ public class ModelController {
             return "addModel";
         }
 
-        CompressorModel compressorModel = new CompressorModel(modelName);
-        modelService.save(compressorModel);
+        modelService.createModelWithDefaultRanges(modelName);
+
         return "redirect:/addParameter";
 
     }

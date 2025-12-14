@@ -12,7 +12,6 @@
 
 <main class="app-shell">
 
-    <!-- ЭКРАН СТАНЦИИ -->
     <section id="screen-station" class="app-screen active">
         <div class="card">
 
@@ -101,7 +100,7 @@
                     </li>
 
                     <li sec:authorize="hasAnyRole('MANAGER','ADMIN')"
-                        th:onclick="'location.href=\'' + '/editModel' + '\';'">
+                        th:onclick="'location.href=\'' + '/selectModel' + '\';'">
                         Редактировать модели
                     </li>
 

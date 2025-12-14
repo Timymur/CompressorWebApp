@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <title th:text="${title}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+
+<main class="app-shell">
+
+        <div class="card">
+
+            <div class="screen-content">
+                <h1 class="card-title-main" th:text="'Редактирование параметров модели ' + ${model.modelName}" ></h1>
+
+                <ul class="params-list">
+                    <li class="param-item" th:each="range : ${ranges}">
+                        <div class="param-name" th:text="${range.parameter.parameterName}"></div>
+
+                        <div class="param-row">
+                            <span class="param-label">Макс значение:</span>
+                            <span class="param-value" th:text="${range.maxValue}"></span>
+                        </div>
+
+                        <div class="param-row">
+                            <span class="param-label">Мин значение:</span>
+                            <span class="param-value" th:text="${range.minValue}"></span>
+                        </div>
+
+                        <button type="button"
+                                class="param-edit-btn"
+                                th:onclick="|window.location.href='/ranges/' + ${range.id} + '/edit'|">
+                            Изменить
+                        </button>
+
+                    </li>
+                </ul>
+
+                <button type="button" class="btn w-100 auth-btn"
+                        onclick="window.location.href='/'">
+                    Отмена
+                </button>
+
+            </div>
+        </div>
+</main>
+</body>
+</html>
