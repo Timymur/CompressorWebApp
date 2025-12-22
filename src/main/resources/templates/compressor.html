@@ -1,10 +1,11 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="${title}"></title>
+    <title th:text="${title}">Компрессор</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet" />
     <link rel="stylesheet" th:href="@{/css/compressor.css}">
 </head>
 <body>
@@ -16,130 +17,71 @@
 
             <div class="screen-content">
 
-                <h1 class="card-title-main text-center mb-3">Компрессор 1</h1>
+                <h1 class="card-title-main text-center mb-3" th:text="'Компрессор '+ ${compressor.serialNumber}"></h1>
+
+                <div th:attr="data-group='workHours'"
+                     th:text="'Наработка часов: 0'">
+                </div>
 
                 <nav class="top-tabs mb-3">
                     <button class="tab-btn active" data-target="tab-oil">Масло</button>
                     <button class="tab-btn" data-target="tab-coolant">Охл. жидкость</button>
-                    <button class="tab-btn" data-target="tab-gas">Загазованность</button>
-                    <button class="tab-btn" data-target="tab-vibration">Вибрация</button>
+                    <button class="tab-btn" data-target="tab-gas">Газ по ступеням</button>
+                    <button class="tab-btn" data-target="tab-bku">БКУ</button>
                 </nav>
 
                 <div class="tab-content">
 
-
                     <div id="tab-oil" class="tab-pane active">
-                        <h5 class="mb-3 text-center section-title-small">Масло</h5>
-                        <table class="table table-dark table-cell-borders table-sm mb-0 w-100">
-                            <colgroup>
-                                <col style="width:20%;">
-                                <col style="width:80%;">
-                            </colgroup>
-                                <tbody>
-                                <tr>
-                                    <td class="unit-label">Т, °C</td>
-                                    <td class="min-max-cell">
-                                        <div class="minmax-col">
-                                            <div class="minmax-val">55</div>
-                                            <div class="minmax-label">min</div>
-                                        </div>
-                                        <span class="current-value">60</span>
-                                        <div class="minmax-col">
-                                            <div class="minmax-val">65</div>
-                                            <div class="minmax-label">max</div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="unit-label">Р, бар</td>
-                                    <td class="min-max-cell">
-                                        <div class="minmax-col">
-                                            <div class="minmax-val">1.0</div>
-                                            <div class="minmax-label">min</div>
-                                        </div>
-                                        <span class="current-value">1.3</span>
-                                        <div class="minmax-col">
-                                            <div class="minmax-val">1.5</div>
-                                            <div class="minmax-label">max</div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                        </table>
+                        <div th:replace="fragments/range-table :: rangeTable('Масло', ${oilRanges}, 'oil')"></div>
                     </div>
 
 
                     <div id="tab-coolant" class="tab-pane">
-                        <h5 class="mb-3 text-center section-title-small">Охлаждающая жидкость</h5>
-                        <table class="table table-dark table-cell-borders table-sm mb-0 w-100">
-                            <colgroup>
-                                <col style="width:20%;">
-                                <col style="width:80%;">
-                            </colgroup>
-                                <tbody>
-                                <tr>
-                                    <td class="unit-label">Т, °C</td>
-                                    <td class="min-max-cell">
-                                        <div class="minmax-col">
-                                            <div class="minmax-val">55</div>
-                                            <div class="minmax-label">min</div>
-                                        </div>
-                                        <span class="current-value">60</span>
-                                        <div class="minmax-col">
-                                            <div class="minmax-val">65</div>
-                                            <div class="minmax-label">max</div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="unit-label">Р, бар</td>
-                                    <td class="min-max-cell">
-                                        <div class="minmax-col">
-                                            <div class="minmax-val">1.0</div>
-                                            <div class="minmax-label">min</div>
-                                        </div>
-                                        <span class="current-value">1.3</span>
-                                        <div class="minmax-col">
-                                            <div class="minmax-val">1.5</div>
-                                            <div class="minmax-label">max</div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                        </table>
+                        <div th:replace="fragments/range-table :: rangeTable('Охлаждающая жидкость', ${coolantRanges}, 'coolant')"></div>
                     </div>
 
 
                     <div id="tab-gas" class="tab-pane">
-                        <h5 class="mb-3 text-center section-title-small">Процент загазованности</h5>
-                        <table class="table table-dark table-cell-borders table-sm mb-0 w-100">
-                            <tbody>
-                            <tr>
-                                <td class="min-max-cell">
-                                    <span class="current-value">5%</span>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <div th:replace="~{fragments/range-table :: rangeTable(
+                            ${'Газ 1-ой ступени'}, ${gasRangesByStep[1]}, ${'gas-1'})}">
+                        </div>
+
+                        <div th:replace="~{fragments/range-table :: rangeTable(
+                            ${'Газ 2-ой ступени'}, ${gasRangesByStep[2]}, ${'gas-2'})}">
+                        </div>
+
+                        <div th:replace="~{fragments/range-table :: rangeTable(
+                            ${'Газ 3-ой ступени'}, ${gasRangesByStep[3]}, ${'gas-3'})}">
+                        </div>
+
+                        <div th:replace="~{fragments/range-table :: rangeTable(
+                            ${'Газ 4-ой ступени'}, ${gasRangesByStep[4]}, ${'gas-4'})}">
+                        </div>
                     </div>
 
 
-                    <div id="tab-vibration" class="tab-pane">
-                        <h5 class="mb-3 text-center section-title-small">Уровень вибрации</h5>
-                        <table class="table table-dark table-cell-borders table-sm mb-0 w-100">
-                            <tbody>
-                            <tr>
-                                <td class="min-max-cell">
-                                    <span class="current-value">7%</span>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <div id="tab-bku" class="tab-pane">
+                        <div th:replace="fragments/range-table :: rangeTable(
+                            'Индекс влажности газа', ${allRanges['Индекс влажности газа']} ,'IVG')">
+                        </div>
 
+                        <div th:replace="fragments/range-table :: rangeTable(
+                            'Уровень вибрации', ${allRanges['Уровень вибрации']}, 'vibration')">
+                        </div>
+
+                        <div th:replace="fragments/range-table :: rangeTable(
+                            'Процент загазованности', ${allRanges['Процент загазованности']}, 'gas-pollution')">
+                        </div>
+
+                        <div th:replace="fragments/range-table :: rangeTable(
+                            'Температура в БКУ', ${allRanges['Температура воздуха в компрессорном блоке']}, 'tempBKU')">
+                        </div>
+
+
+                    </div>
                 </div>
             </div>
-
 
             <nav class="bottom-nav inside-card">
                 <button type="button" class="nav-btn active" data-target="screen-compressor">
@@ -156,20 +98,7 @@
 
 </main>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const tabButtons = document.querySelectorAll('.top-tabs .tab-btn');
-        const tabPanes = document.querySelectorAll('.tab-pane');
+<script th:src="@{/js/compressor.js}"></script>
 
-        tabButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const targetId = btn.dataset.target;
-                tabButtons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                tabPanes.forEach(p => p.classList.toggle('active', p.id === targetId));
-            });
-        });
-    });
-</script>
 </body>
 </html>

@@ -50,6 +50,9 @@ body {
 .unit-label {
   color: #ff4444 !important;
   font-size: 1.5rem;
+
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .min-max-cell {
@@ -58,11 +61,11 @@ body {
   align-items: flex-end;
   gap: 10px;
   padding: 0;
-  height: 70px;
+  height: 50px;
 }
 
 .current-value {
-  font-size: 4rem;
+  font-size: 3rem;
   font-weight: 700;
   color: #ff4444;
   line-height: 1;
@@ -156,4 +159,5 @@ body {
 .section-title-small {
   color: #E10600;
   font-size: 1rem;
+  margin-top: 20px;
 }

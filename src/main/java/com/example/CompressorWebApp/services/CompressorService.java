@@ -6,6 +6,7 @@ import com.example.CompressorWebApp.repositories.CompressorRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CompressorService {
@@ -14,6 +15,10 @@ public class CompressorService {
 
     public CompressorService(CompressorRepository compressorRepository){
         this.compressorRepository = compressorRepository;
+    }
+
+    public Optional<Compressor> findById(Long id){
+        return compressorRepository.findById(id);
     }
 
     public List<Compressor> findByStationId(Long id) {

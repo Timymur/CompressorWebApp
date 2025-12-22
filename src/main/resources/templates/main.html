@@ -56,11 +56,9 @@
                     </div>
 
                     <ul class="stats-list link-list">
-                        <li th:onclick="'location.href=\'' + '/' + '\';'">
-                            Компрессор 1 SW-200F4,9-EM
-                        </li>
-                        <li th:onclick="'location.href=\'' + '/compressor' + '\';'">
-                            Компрессор 2 SW-200F4,9-EM
+                        <li th:each="compressor : ${compressors}"
+                            th:onclick="|window.location.href='/compressor/' + ${compressor.id}|"
+                            th:text="'Компрессор №' + ${compressor.serialNumber} + ' ' + ${compressor.compressorModel.modelName} "  >
                         </li>
                     </ul>
                 </div>
