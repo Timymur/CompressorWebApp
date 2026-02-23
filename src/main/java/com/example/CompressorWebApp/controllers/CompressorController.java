@@ -1,8 +1,10 @@
 package com.example.CompressorWebApp.controllers;
 
 
+import com.example.CompressorWebApp.enums.CompressorState;
 import com.example.CompressorWebApp.models.*;
 import com.example.CompressorWebApp.services.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -175,4 +177,24 @@ public class CompressorController {
 
         return "redirect:/";
     }
+
+    @PostMapping("/compressor/{id}/state")
+    public String changeState(@PathVariable Long id, @RequestParam String value) {
+
+        Compressor compressor = compressorService.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Такого компрессора нет"));
+
+
+        CompressorState state = CompressorState.valueOf(value.toUpperCase());
+
+        if(state.equals(CompressorState.WAIT) && !(compressor.getState().equals(CompressorState.FALL)) ) return "redirect:/compressor/" + id;
+
+
+        compressorService.changeState(id, state);
+
+        return "redirect:/compressor/" + id;
+    }
+
+
+
 }

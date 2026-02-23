@@ -37,6 +37,24 @@ public class ModelParamRangeController {
         return "selectModel";
     }
 
+
+
+    @GetMapping("/selectParam")
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+    public String selectParamGet(@RequestParam("modelId") Long id, Model model){
+
+        List<ModelParamRange> ranges = modelParamRangeService.findByCompressorModelId(id);
+        model.addAttribute("ranges", ranges);
+
+        CompressorModel compressorModel = modelService.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Такой модели нет"));
+
+        model.addAttribute("model", compressorModel);
+
+
+        return "selectParam";
+    }
+
     @PostMapping("/selectParam")
     @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
     public String selectParam(Model model, @RequestParam Long modelId) {

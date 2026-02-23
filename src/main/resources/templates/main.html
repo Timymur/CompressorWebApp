@@ -57,6 +57,7 @@
 
                     <ul class="stats-list link-list">
                         <li th:each="compressor : ${compressors}"
+                            th:attr="data-compressor-id=${compressor.id}"
                             th:onclick="|window.location.href='/compressor/' + ${compressor.id}|"
                             th:text="'Компрессор №' + ${compressor.serialNumber} + ' ' + ${compressor.compressorModel.modelName} "  >
                         </li>
@@ -145,5 +146,8 @@
         });
     });
 </script>
+
+<script src="/js/ws-compressor.js"></script>
+
 </body>
 </html>

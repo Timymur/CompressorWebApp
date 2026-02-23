@@ -16,7 +16,7 @@ public class Compressor {
     @Enumerated(EnumType.STRING)
     private CompressorState state;
 
-    private int workHours;
+    private double workHours;
 
     @ManyToOne
     @JoinColumn(name = "compressor_model_id")
@@ -63,11 +63,11 @@ public class Compressor {
         this.state = state;
     }
 
-    public int getWorkHours() {
+    public double getWorkHours() {
         return workHours;
     }
 
-    public void setWorkHours(int workHours) {
+    public void setWorkHours(double workHours) {
         this.workHours = workHours;
     }
 

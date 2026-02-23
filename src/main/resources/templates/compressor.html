@@ -17,11 +17,42 @@
 
             <div class="screen-content">
 
+                <div hidden id="compressor-root"
+                     th:attr="data-compressor-id=${compressor.id}">
+                </div>
+
                 <h1 class="card-title-main text-center mb-3" th:text="'Компрессор '+ ${compressor.serialNumber}"></h1>
 
-                <div th:attr="data-group='workHours'"
-                     th:text="'Наработка часов: 0'">
+
+                <div class="status-row mb-3">
+                    <div class="status-text">
+                        <div id="compressor-state-label">
+                        </div>
+
+                        <div th:attr="data-group='workHours'">
+                        </div>
+                    </div>
+
+                    <div class="status-buttons">
+                        <form th:action="@{/compressor/{id}/state(id=${compressor.id})}" method="post">
+                            <input type="hidden" name="value"
+                                   th:value="${compressor.state == T(com.example.CompressorWebApp.enums.CompressorState).WORKING ? 'OFF' : 'WORKING'}" />
+                            <button type="submit" class="btn btn-outline-danger btn-sm me-2"
+                                    th:text="${compressor.state == T(com.example.CompressorWebApp.enums.CompressorState).WORKING ? 'ОСТАНОВИТЬ' : 'ЗАПУСТИТЬ'}">
+                                ОСТАНОВИТЬ
+                            </button>
+                        </form>
+
+                        <form th:action="@{/compressor/{id}/state(id=${compressor.id})}" method="post">
+                            <input type="hidden" name="value"
+                                   th:value="WAIT" />
+                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                СБРОС АВАРИИ
+                            </button>
+                        </form>
+                    </div>
                 </div>
+
 
                 <nav class="top-tabs mb-3">
                     <button class="tab-btn active" data-target="tab-oil">Масло</button>
@@ -84,6 +115,7 @@
             </div>
 
             <nav class="bottom-nav inside-card">
+
                 <button type="button" class="nav-btn active" data-target="screen-compressor">
                     Журнал аварий
                 </button>
@@ -91,6 +123,7 @@
                         onclick="window.location.href='/'">
                     Назад
                 </button>
+
             </nav>
 
         </div>
@@ -98,7 +131,23 @@
 
 </main>
 
-<script th:src="@{/js/compressor.js}"></script>
+<script>
+
+    document.addEventListener('DOMContentLoaded', () => {
+            const tabButtons = document.querySelectorAll('.top-tabs .tab-btn');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetId = btn.dataset.target;
+                    tabButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    tabPanes.forEach(p => p.classList.toggle('active', p.id === targetId));
+                });
+            });
+        });
+</script>
+<script th:src="@{/js/ws-compressor.js}"></script>
 
 </body>
 </html>

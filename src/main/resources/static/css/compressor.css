@@ -161,3 +161,30 @@ body {
   font-size: 1rem;
   margin-top: 20px;
 }
+
+tr.warning-row {
+  background-color: #2b2410;
+  border-left: 4px solid #ffc107;
+}
+
+
+.status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.status-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.status-buttons {
+
+}
+
+.status-buttons form {
+    padding : 2px;
+}
