@@ -8,8 +8,5 @@ import java.util.List;
 public interface CompressorRepository extends JpaRepository<Compressor, Long> {
 
 
-
-
-
     List<Compressor> findByStationId(Long id);
 }
