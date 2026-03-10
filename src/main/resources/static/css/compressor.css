@@ -1,9 +1,10 @@
 body {
-  background-color: #000;
-  color: #eee;
+ background: linear-gradient(135deg, #323232 0%, #282828 100%);
+  color: #000;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
 }
+
 
 
 .app-shell {
@@ -22,17 +23,13 @@ body {
 
 
 .card {
-  background-color: #111;
-  border: 2px solid #E10600;
-  box-shadow: 0 0 15px #E10600;
-  color: #eee;
+  background-color: #A1E7F7;
+  border: 2px solid #8fCfFf;
+  color: #000;
   padding: 20px 24px;
   min-height: calc(100vh - 30px);
   display: flex;
   flex-direction: column;
-}
-.card:hover {
-  box-shadow: 0 0 30px #ff3b3b;
 }
 
 
@@ -44,13 +41,13 @@ body {
 
 
 .table-dark {
-  background-color: #292c30;
+  background-color: #61A7D7 !important;
 }
 
 .unit-label {
-  color: #ff4444 !important;
+  color: #000 !important;
   font-size: 1.5rem;
-
+ background-color: #61A7D7 !important;
   align-items: center;
   justify-content: flex-end;
 }
@@ -62,14 +59,24 @@ body {
   gap: 10px;
   padding: 0;
   height: 50px;
+   background-color: #61A7D7 !important;
 }
 
 .current-value {
   font-size: 3rem;
   font-weight: 700;
-  color: #ff4444;
+  color: #61FF5D;
   line-height: 1;
 }
+tr.warning-row .current-value {
+    color: #ff0000;
+}
+
+ .tab-btn.warning-tab {
+   transform: scale(1.1);
+   color: #ff0000 !important;
+ }
+
 
 .minmax-col {
   display: flex;
@@ -80,20 +87,20 @@ body {
 
 .minmax-val {
   font-size: 1.1rem;
-  color: #aaa;
+  color: #000;
   margin-bottom: 2px;
 }
 
 .minmax-label {
   font-size: 0.85rem;
-  color: #888;
+  color: #000;
   line-height: 1;
   letter-spacing: 1px;
 }
 
 .table-cell-borders td {
-  border-right: 2px solid #6c757d !important;
-  border-bottom: 2px solid #6c757d !important;
+  border-right: 2px solid ##282828 !important;
+  border-bottom: 2px solid ##282828 !important;
 }
 .table-cell-borders tr:last-child td {
   border-bottom: none !important;
@@ -106,27 +113,31 @@ body {
 .bottom-nav {
   display: flex;
   justify-content: space-around;
-  background-color: transparent;
+  background-color: #81C7F7;
   border-top: 1px solid #2a2e35;
   padding: 6px 0 0;
   margin-top: 0.5rem;
+  color:#000;
 }
 
 .bottom-nav.inside-card {
   margin-top: auto;
+  background-color: transparent;
+  border-top: 1px solid #2a2e35;
+  padding-top: 6px;
 }
 
 .bottom-nav .nav-btn {
   flex: 1;
   background: transparent;
   border: none;
-  color: #aaa;
+  color: #000;
   font-size: 0.8rem;
   padding: 4px 0;
 }
 
 .bottom-nav .nav-btn.active {
-  color: #E10600;
+  color: #000;
   font-weight: 600;
 }
 
@@ -139,13 +150,14 @@ body {
   flex: 1;
   background: transparent;
   border: none;
-  color: #bbb;
+  color: #000;
   font-size: 0.8rem;
   padding: 6px 4px;
 }
 .top-tabs .tab-btn.active {
-  color: #E10600;
-  border-bottom: 2px solid #E10600;
+  color: #282828;
+  border-bottom: 2px solid #282828;
+
 }
 
 .tab-pane {
@@ -157,15 +169,12 @@ body {
 
 
 .section-title-small {
-  color: #E10600;
+  color: #000;
   font-size: 1rem;
   margin-top: 20px;
 }
 
-tr.warning-row {
-  background-color: #2b2410;
-  border-left: 4px solid #ffc107;
-}
+
 
 
 .status-row {

@@ -1,27 +1,25 @@
 body {
-  background-color: #000;
-  color: #eee;
+  background: linear-gradient(135deg, #323232 0%, #282828 100%);
+  color: #000;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
 }
 
 
 .card {
-  background-color: #111;
-  border: 2px solid #E10600;
-  box-shadow: 0 0 15px #E10600;
-  color: #eee;
+  background-color: #A1E7F7;
+  border: 2px solid #81C7F7;
+  box-shadow: 0 0 15px #8fCfFf;
+  color: #000;
   padding: 20px 24px;
 }
-.card:hover {
-  box-shadow: 0 0 30px #ff3b3b;
-}
+
 
 
 .card-title-main {
   font-size: 2rem;
   font-weight: 700;
-  color: #E10600;
+  color: #000;
   margin-bottom: 1rem;
 }
 
@@ -47,39 +45,33 @@ body {
   margin-top: 10px;
   font-weight: 600;
   letter-spacing: 0.5px;
-  background-color: #E10600;
-  border-color: #E10600;
+  background-color: #81C7F7;
+  border-color: #81C7F7;
 }
 .auth-btn:hover {
-  background-color: #ff1b1b;
-  border-color: #ff1b1b;
+  background-color: #8fCfFf;
+  border-color: #8fCfFf;
 }
 
 
 .auth-cancel-btn {
   border-color: #555;
-  color: #ccc;
+  color: #000;
   background-color: transparent;
 }
 .auth-cancel-btn:hover {
   border-color: #777;
   color: #fff;
-  background-color: #222;
+  background-color: #61A7D7;
 }
 
 .auth-input {
-  background-color: #222222;
-  border: 1px solid #444;
-  color: #eee;
+
+  border: 1px solid #81C7F7;
+  color: #000;
 }
 
 .auth-input::placeholder {
   color: #888;
 }
 
-.auth-input:focus {
-  background-color: #262626;
-  border-color: #E10600;
-  box-shadow: 0 0 0 0.2rem rgba(225, 6, 0, 0.35);
-  color: #fff;
-}

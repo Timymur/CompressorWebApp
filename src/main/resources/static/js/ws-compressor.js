@@ -74,6 +74,21 @@ function updateUiForCompressor(compressorId, data) {
     workHoursEl.textContent = 'Наработка часов: ' + workHours.toFixed(2);
   }
 
+
+  const groupToButton = {
+    'oil': 'tab-oil',
+    'coolant': 'tab-coolant',
+    'gas-1': 'tab-gas',
+    'gas-2': 'tab-gas',
+    'gas-3': 'tab-gas',
+    'gas-4': 'tab-gas',
+    'IVG': 'tab-bku',
+    'vibration': 'tab-bku',
+    'gas-pollution': 'tab-bku',
+    'tempBKU': 'tab-bku',
+  };
+
+
   document.querySelectorAll('tr[data-group]').forEach(row => {
     const group = row.dataset.group;
     const param = row.dataset.param;
@@ -85,8 +100,34 @@ function updateUiForCompressor(compressorId, data) {
 
     if (warnings && warnings.includes(param)) {
       row.classList.add('warning-row');
+
+      const targetId = groupToButton[group];
+
+      if (targetId) {
+        const button = document.querySelector(`[data-target="${targetId}"]`);
+        if (button) {
+          button.classList.add('warning-tab');
+        }
+      }
     } else {
       row.classList.remove('warning-row');
+    }
+  });
+
+
+  Object.entries(groupToButton).forEach(([group, targetId]) => {
+    const rowsInGroup = document.querySelectorAll(`tr[data-group="${group}"]`);
+    const hasWarningInGroup = Array.from(rowsInGroup).some(row =>
+      warnings && warnings.includes(row.dataset.param)
+    );
+
+    const button = document.querySelector(`[data-target="${targetId}"]`);
+    if (button) {
+      if (hasWarningInGroup) {
+        button.classList.add('warning-tab');
+      } else {
+        button.classList.remove('warning-tab');
+      }
     }
   });
 
@@ -97,7 +138,6 @@ function updateUiForCompressor(compressorId, data) {
        state === 'off' ? 'ВЫКЛЮЧЕН' :
        state === 'fall' ? 'АВАРИЯ' : 'нет данных');
   }
-
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -105,5 +145,4 @@ document.addEventListener('DOMContentLoaded', () => {
   if (compressors.size > 0) {
     initWebSocket();
   }
-
 });

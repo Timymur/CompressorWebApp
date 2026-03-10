@@ -37,7 +37,7 @@
                         <form th:action="@{/compressor/{id}/state(id=${compressor.id})}" method="post">
                             <input type="hidden" name="value"
                                    th:value="${compressor.state == T(com.example.CompressorWebApp.enums.CompressorState).WORKING ? 'OFF' : 'WORKING'}" />
-                            <button type="submit" class="btn btn-outline-danger btn-sm me-2"
+                            <button type="submit" class="btn btn-outline-success btn-sm me-2"
                                     th:text="${compressor.state == T(com.example.CompressorWebApp.enums.CompressorState).WORKING ? 'ОСТАНОВИТЬ' : 'ЗАПУСТИТЬ'}">
                                 ОСТАНОВИТЬ
                             </button>
@@ -46,7 +46,7 @@
                         <form th:action="@{/compressor/{id}/state(id=${compressor.id})}" method="post">
                             <input type="hidden" name="value"
                                    th:value="WAIT" />
-                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                            <button type="submit" class="btn btn-outline-success btn-sm">
                                 СБРОС АВАРИИ
                             </button>
                         </form>
