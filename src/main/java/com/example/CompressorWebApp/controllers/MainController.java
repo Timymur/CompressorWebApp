@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class MainController {
@@ -55,6 +56,12 @@ public class MainController {
 
         if(compressors == null) model.addAttribute("nullCompressors", "На этой станции нет компрессоров");
         model.addAttribute("compressors", compressors);
+
+        Optional<User> onShiftUser = workers.stream()
+                .filter(User::isInWork)
+                .findFirst();
+
+        model.addAttribute("onShiftUser", onShiftUser.orElse(null));
 
         return "main";
     }

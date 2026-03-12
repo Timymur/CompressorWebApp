@@ -48,4 +48,14 @@ public class UserService {
     public List<User> findByStationId(Long id) {
         return userRepository.findByStation_Id(id);
     }
+
+    public void closeShift(User user) {
+        user.setInWork(false);
+        userRepository.save(user);
+    }
+
+    public void openShift(User user) {
+        user.setInWork(true);
+        userRepository.save(user);
+    }
 }
