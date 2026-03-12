@@ -145,9 +145,10 @@
             });
         });
     });
-</script>
+</script >
 
-<script src="/js/ws-compressor.js"></script>
+<script  sec:authorize="hasAnyRole('MANAGER','USER')"
+         src="/js/ws-compressor.js"></script>
 
 </body>
 </html>

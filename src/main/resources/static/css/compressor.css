@@ -65,7 +65,7 @@ body {
 .current-value {
   font-size: 3rem;
   font-weight: 700;
-  color: #61FF5D;
+  color: #329632;
   line-height: 1;
 }
 tr.warning-row .current-value {

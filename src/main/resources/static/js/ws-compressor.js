@@ -41,7 +41,8 @@ function initWebSocket() {
 
     compressors.set(id, {
       workHours: data.workHours,
-      currentValues: data.values
+      currentValues: data.values,
+      warnings: data.warnings || []
     });
 
     updateUiForCompressor(id, data);
@@ -64,7 +65,18 @@ function sendRequest(compressorId) {
 }
 
 function updateUiForCompressor(compressorId, data) {
-  const { state, workHours, values, warnings } = data;
+  const { state, workHours, values, warnings = [] } = data;
+
+
+  const compressorLi = document.querySelector(`[data-compressor-id="${compressorId}"]`);
+  if (compressorLi) {
+    if (warnings.length > 0) {
+      compressorLi.classList.add('warning-compressor');
+    } else {
+      compressorLi.classList.remove('warning-compressor');
+    }
+  }
+
 
   const compressorScreen = document.getElementById('screen-compressor');
   if (!compressorScreen) return;
@@ -73,7 +85,6 @@ function updateUiForCompressor(compressorId, data) {
   if (workHoursEl) {
     workHoursEl.textContent = 'Наработка часов: ' + workHours.toFixed(2);
   }
-
 
   const groupToButton = {
     'oil': 'tab-oil',
@@ -87,7 +98,6 @@ function updateUiForCompressor(compressorId, data) {
     'gas-pollution': 'tab-bku',
     'tempBKU': 'tab-bku',
   };
-
 
   document.querySelectorAll('tr[data-group]').forEach(row => {
     const group = row.dataset.group;
@@ -113,7 +123,6 @@ function updateUiForCompressor(compressorId, data) {
       row.classList.remove('warning-row');
     }
   });
-
 
   Object.entries(groupToButton).forEach(([group, targetId]) => {
     const rowsInGroup = document.querySelectorAll(`tr[data-group="${group}"]`);
