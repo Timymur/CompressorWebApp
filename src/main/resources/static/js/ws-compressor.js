@@ -1,3 +1,7 @@
+if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+    Notification.requestPermission();
+}
+
 const compressors = new Map();
 
 function initCompressorsFromDom() {
@@ -70,8 +74,10 @@ function updateUiForCompressor(compressorId, data) {
 
   const compressorLi = document.querySelector(`[data-compressor-id="${compressorId}"]`);
   if (compressorLi) {
-    if (warnings.length > 0) {
+    if (warnings.length > 0  || data.state === 'fall') {
+
       compressorLi.classList.add('warning-compressor');
+      notifyAlarm();
     } else {
       compressorLi.classList.remove('warning-compressor');
     }
@@ -134,11 +140,14 @@ function updateUiForCompressor(compressorId, data) {
     if (button) {
       if (hasWarningInGroup) {
         button.classList.add('warning-tab');
+
       } else {
         button.classList.remove('warning-tab');
       }
     }
   });
+
+
 
   const stateLabel = document.getElementById('compressor-state-label');
   if (stateLabel) {
@@ -147,6 +156,20 @@ function updateUiForCompressor(compressorId, data) {
        state === 'off' ? 'ВЫКЛЮЧЕН' :
        state === 'fall' ? 'АВАРИЯ' : 'нет данных');
   }
+
+  const resetButton = document.getElementById('reset');
+    if (resetButton) {
+        if (data.state === 'fall') {
+            resetButton.classList.add('warning');
+            stateLabel.classList.add('warning');
+        } else {
+            resetButton.classList.remove('warning');
+            stateLabel.classList.remove('warning');
+        }
+    }
+
+
+
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -155,3 +178,45 @@ document.addEventListener('DOMContentLoaded', () => {
     initWebSocket();
   }
 });
+
+
+function notifyAlarm() {
+    beep();
+    if (document.hidden) {
+
+        if (Notification.permission === 'granted') {
+            try {
+                new Notification('⚠️ Авария на компрессоре', {
+                    body: 'Компрессор в аварийном состоянии!',
+                    silent: false,
+                });
+            } catch (e) {
+                console.warn('Ошибка показа уведомления:', e);
+            }
+        } else if (Notification.permission !== 'denied') {
+
+            Notification.requestPermission().then(perm => {
+                if (perm === 'granted') {
+
+                    notifyAlarm();
+                }
+            });
+        }
+    }
+}
+
+function beep() {
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        oscillator.frequency.value = 2000;
+        gainNode.gain.value = 0.1;
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.3);
+    } catch (e) {
+        console.log('Звук не поддерживается', e);
+    }
+}

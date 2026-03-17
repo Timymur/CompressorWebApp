@@ -134,8 +134,8 @@ body {
   padding: 4px 0;
 }
 .bottom-nav .nav-btn.active {
-  color: #fafafa;
-  font-weight: 600;
+  color: #000;
+  font-weight: 800;
 }
 
 

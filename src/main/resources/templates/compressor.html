@@ -45,8 +45,8 @@
 
                         <form th:action="@{/compressor/{id}/state(id=${compressor.id})}" method="post">
                             <input type="hidden" name="value"
-                                   th:value="WAIT" />
-                            <button type="submit" class="btn btn-outline-success btn-sm">
+                                   th:value="OFF" />
+                            <button id="reset" type="submit" class="btn btn-outline-success btn-sm">
                                 СБРОС АВАРИИ
                             </button>
                         </form>
@@ -116,7 +116,8 @@
 
             <nav class="bottom-nav inside-card">
 
-                <button type="button" class="nav-btn active" data-target="screen-compressor">
+                <button type="button" class="nav-btn active" data-target="screen-compressor"
+                        th:onclick="|window.location.href='/openAccidentLog/' + ${compressor.id}|">
                     Журнал аварий
                 </button>
                 <button type="button" class="nav-btn active" data-target="screen-compressor"
@@ -146,6 +147,7 @@
                 });
             });
         });
+
 </script>
 <script th:src="@{/js/ws-compressor.js}"></script>
 

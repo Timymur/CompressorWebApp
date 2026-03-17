@@ -2,6 +2,7 @@ package com.example.CompressorWebApp.config;
 
 
 
+import com.example.CompressorWebApp.services.CompressorEventService;
 import com.example.CompressorWebApp.services.CompressorService;
 import com.example.CompressorWebApp.services.ModelParamRangeService;
 import com.example.CompressorWebApp.websocket.CompressorWebSocketHandler;
@@ -19,10 +20,12 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     private final CompressorService compressorService;
     private final ModelParamRangeService modelParamRangeService;
+    private final CompressorEventService compressorEventService;
 
-    public WebSocketConfig(CompressorService compressorService, ModelParamRangeService modelParamRangeService){
+    public WebSocketConfig(CompressorService compressorService, ModelParamRangeService modelParamRangeService, CompressorEventService compressorEventService){
         this.compressorService = compressorService;
         this.modelParamRangeService = modelParamRangeService;
+        this.compressorEventService = compressorEventService;
     }
 
     @Override
@@ -33,6 +36,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Bean
     public WebSocketHandler compressorHandler() {
-        return new CompressorWebSocketHandler( compressorService, modelParamRangeService);
+        return new CompressorWebSocketHandler( compressorService, modelParamRangeService, compressorEventService);
     }
 }

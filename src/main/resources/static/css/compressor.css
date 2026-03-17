@@ -197,3 +197,14 @@ tr.warning-row .current-value {
 .status-buttons form {
     padding : 2px;
 }
+
+.warning{
+  background: #ff4444 !important;
+  color: #fff !important;
+  animation: pulse 0.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}

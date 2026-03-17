@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -46,7 +47,7 @@ public class UserService {
     }
 
     public List<User> findByStationId(Long id) {
-        return userRepository.findByStation_Id(id);
+        return userRepository.findByStationId(id);
     }
 
     public void closeShift(User user) {
@@ -57,5 +58,12 @@ public class UserService {
     public void openShift(User user) {
         user.setInWork(true);
         userRepository.save(user);
+    }
+
+    public Optional<User> findCurrentShiftUserByStationId(Long stationId) {
+        List<User> workers = userRepository.findByStationId(stationId);
+        return workers.stream()
+                .filter(User::isInWork)
+                .findFirst();
     }
 }

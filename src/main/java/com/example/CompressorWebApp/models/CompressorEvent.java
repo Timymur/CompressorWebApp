@@ -13,7 +13,7 @@ public class CompressorEvent {
 
     private LocalDate date;
     private LocalTime time;
-
+    private String text;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -32,12 +32,19 @@ public class CompressorEvent {
 
     }
 
-    public CompressorEvent(User user, Parameter parameter, Compressor compressor, LocalDate date, LocalTime time) {
+    public CompressorEvent(User user, Parameter parameter, Compressor compressor, LocalDate date, LocalTime time, String text) {
         this.user = user;
         this.parameter = parameter;
         this.compressor = compressor;
         this.date = date;
         this.time = time;
+        this.text = text;
+    }
+    public String getText(){
+        return text;
+    }
+    public void setText(String text){
+        this.text = text;
     }
 
     public Long getId() {

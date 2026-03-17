@@ -3,6 +3,7 @@ package com.example.CompressorWebApp.websocket;
 import com.example.CompressorWebApp.enums.CompressorState;
 import com.example.CompressorWebApp.models.Compressor;
 import com.example.CompressorWebApp.models.ModelParamRange;
+import com.example.CompressorWebApp.services.CompressorEventService;
 import com.example.CompressorWebApp.services.CompressorService;
 import com.example.CompressorWebApp.services.ModelParamRangeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,37 +12,35 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CompressorWebSocketHandler extends TextWebSocketHandler {
 
     private final CompressorService compressorService;
     private final ModelParamRangeService modelParamRangeService;
-
+    private final CompressorEventService compressorEventService;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public CompressorWebSocketHandler(CompressorService compressorService,
-                                      ModelParamRangeService modelParamRangeService) {
+                                      ModelParamRangeService modelParamRangeService, CompressorEventService compressorEventService) {
         this.compressorService = compressorService;
         this.modelParamRangeService = modelParamRangeService;
+        this.compressorEventService = compressorEventService;
     }
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        // Только compressorId из JS
+
         Map<String, Object> clientData = objectMapper.readValue(message.getPayload(), Map.class);
         Long compressorId = ((Number) clientData.get("compressorId")).longValue();
 
-        // Загружаем из БД
+
         Compressor compressor = compressorService.findById(compressorId)
                 .orElseThrow(() -> new IllegalArgumentException("Компрессор не найден"));
 
-        CompressorState state = compressor.getState();  // State ИЗ БД!
+        CompressorState state = compressor.getState();
 
-        // Безопасное чтение workHours из БД
+
         double workHours = 0.0;
         Object rawWorkHours = compressor.getWorkHours();
         if (rawWorkHours != null && rawWorkHours instanceof Number) {
@@ -57,44 +56,91 @@ public class CompressorWebSocketHandler extends TextWebSocketHandler {
         Long modelId = compressor.getCompressorModel().getId();
         List<ModelParamRange> ranges = modelParamRangeService.findByCompressorModelId(modelId);
 
-        Map<String, Map<String, Double>> newValues = new HashMap<>();
-
-        // Моточасы ИЗ БД + инкремент (сохраняем обратно!)
         double newWorkHours = workHours + (state == CompressorState.WORKING ? 0.0003 : 0);
-        newValues.computeIfAbsent("other", g -> new HashMap<>()).put("Наработка моточасов", newWorkHours);
-
-        // Сохраняем обновлённые моточасы в БД
         compressor.setWorkHours(newWorkHours);
         compressorService.save(compressor);
 
-        for (ModelParamRange range : ranges) {
-            String paramName = range.getParameter().getParameterName();
+        Map<String, Map<String, Double>> valuesForResponse;
 
-            if (state == CompressorState.OFF && !paramName.toLowerCase().contains("температура")) {
+        if (state == CompressorState.FALL) {
+
+            valuesForResponse = new HashMap<>();
+            valuesForResponse.computeIfAbsent("other", k -> new HashMap<>()).put("Наработка моточасов", newWorkHours);
+            for (ModelParamRange range : ranges) {
+                String paramName = range.getParameter().getParameterName();
                 String group = resolveGroupByParamName(paramName);
-                newValues.computeIfAbsent(group, g -> new HashMap<>()).put(paramName, 0.0);
-                continue;
+                valuesForResponse.computeIfAbsent(group, g -> new HashMap<>()).put(paramName, 0.0);
+            }
+        } else {
+
+            valuesForResponse = new HashMap<>();
+            Random random = new Random();
+
+            valuesForResponse.computeIfAbsent("other", k -> new HashMap<>()).put("Наработка моточасов", newWorkHours);
+
+            for (ModelParamRange range : ranges) {
+                String paramName = range.getParameter().getParameterName();
+
+
+                if (state == CompressorState.OFF && !paramName.toLowerCase().contains("температура")) {
+                    String group = resolveGroupByParamName(paramName);
+                    valuesForResponse.computeIfAbsent(group, g -> new HashMap<>()).put(paramName, 0.0);
+                    continue;
+                }
+
+                double min = range.getMinValue();
+                double max = range.getMaxValue();
+                String group = resolveGroupByParamName(paramName);
+
+                double newValue;
+                int chance = random.nextInt(100);
+
+                if (chance < 0) {
+                    newValue = createAccidentSituation(min, max);
+                } else if (chance < 50) {
+                    newValue = createWarningSituation(min, max);
+                } else {
+                    double currentValue = (min + max) / 2.0;
+                    newValue = stableRandomValue(min, max, currentValue);
+                }
+
+                valuesForResponse.computeIfAbsent(group, g -> new HashMap<>()).put(paramName, newValue);
+            }
+        }
+
+
+        boolean alarmTriggered = false;
+        if (state == CompressorState.WORKING) {
+            for (ModelParamRange range : ranges) {
+                String paramName = range.getParameter().getParameterName();
+                double min = range.getMinValue();
+                double max = range.getMaxValue();
+                double currentValue = getValueFromMap(valuesForResponse, paramName);
+
+                if (currentValue < min || currentValue > max) {
+                    compressorEventService.createEvent(compressor, range.getParameter(), currentValue, min, max);
+                    alarmTriggered = true;
+                }
             }
 
-            double min = range.getMinValue();
-            double max = range.getMaxValue();
-            String group = resolveGroupByParamName(paramName);
+            if (alarmTriggered) {
+                compressor.setState(CompressorState.FALL);
+                compressorService.save(compressor);
+                state = CompressorState.FALL;
 
-            // Стартуем с середины диапазона (не из JS)
-            double currentValue = (min + max) / 2.0;
-            double newValue = stableRandomValue(min, max, currentValue);
-
-            newValues.computeIfAbsent(group, g -> new HashMap<>()).put(paramName, newValue);
+            }
         }
 
         Map<String, Object> root = new HashMap<>();
         root.put("compressorId", compressorId);
-        root.put("state", state.name().toLowerCase());  // State из БД
-        root.put("workHours", newWorkHours);  // Обновлённые из БД
-        root.put("values", newValues);
+        root.put("state", state.name().toLowerCase());
+        root.put("workHours", newWorkHours);
+        root.put("values", valuesForResponse);
 
-        List<String> warnings = calculateWarnings(ranges, newValues);
-        root.put("warnings", warnings);
+        if (state == CompressorState.WORKING) {
+            List<String> warnings = calculateWarnings(ranges, valuesForResponse);
+            root.put("warnings", warnings);
+        }
 
         return objectMapper.writeValueAsString(root);
     }
@@ -149,5 +195,32 @@ public class CompressorWebSocketHandler extends TextWebSocketHandler {
         if (candidate > max) return max;
 
         return Math.round(candidate * 10.0) / 10.0;
+    }
+
+    private double createWarningSituation(double min, double max) {
+
+        double range = max - min;
+        double threshold = range * 0.1;
+
+        if (Math.random() < 0.5) {
+            double candidate = min + Math.random() * threshold;
+            return Math.round(candidate * 10.0) / 10.0;
+
+        } else {
+            double candidate = max - Math.random() * threshold;
+            return Math.round(candidate * 10.0) / 10.0;
+        }
+    }
+
+    private double createAccidentSituation(double min, double max) {
+
+        double offset = (max - min) * 0.05;
+        if (Math.random() < 0.5) {
+            double candidate = min - offset * (0.5 + Math.random() * 0.5);
+            return Math.round(candidate * 10.0) / 10.0;
+        } else {
+            double candidate = max + offset * (0.5 + Math.random() * 0.5);
+            return Math.round(candidate * 10.0) / 10.0;
+        }
     }
 }

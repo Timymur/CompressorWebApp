@@ -187,8 +187,6 @@ public class CompressorController {
 
         CompressorState state = CompressorState.valueOf(value.toUpperCase());
 
-        if(state.equals(CompressorState.WAIT) && !(compressor.getState().equals(CompressorState.FALL)) ) return "redirect:/compressor/" + id;
-
 
         compressorService.changeState(id, state);
 

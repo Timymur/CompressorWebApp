@@ -75,3 +75,31 @@ body {
   color: #888;
 }
 
+
+.event-item {
+    max-width: 350px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #ffffff 0%, #f8f9ff 100%);
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.12),
+        0 2px 8px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    margin: 15px 0;
+
+}
+.event-item h4 {
+    margin: 0 0 12px 0;
+    color: #2c3e50;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.event-item p {
+    margin: 8px 0;
+    color: #5a6c7d;
+    font-size: 14px;
+    line-height: 1.5;
+}
