@@ -7,8 +7,7 @@ body {
 
 
 .card {
-  background-color: #A1E7F7;
-  border: 2px solid #8fCfFf;
+  background: linear-gradient(135deg, #ffffff 0%, #c9c9c9 80%);
   color: #000;
   padding: 20px 24px;
   min-height: calc(100vh - 30px);
@@ -41,27 +40,21 @@ body {
   margin: 0;
   border-radius: 6px;
   overflow: hidden;
+  -webkit-box-shadow: 0px 5px 38px 2px rgba(71, 76, 120, 0.2);
+  -moz-box-shadow: 0px 5px 38px 2px rgba(71, 76, 120, 0.2);
+  box-shadow: 0px 5px 38px 2px rgba(71, 76, 120, 0.2);
 }
 
 .stats-list li {
   padding: 10px 12px;
+  margin: 2px;
   font-size: 0.95rem;
-  background: #71B7E7;
-  border-bottom: 1px solid #2a2e35;
+  background: #ffffff;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-
-.stats-list li:last-child {
-  border-bottom: none;
-}
-
-.stats-list li:nth-child(odd) {
-  background: #8fCfFf;
-}
-
-
 
 .on-shift-user {
   margin-top: 15px;
@@ -71,7 +64,7 @@ body {
 
 
 .bottom-block {
-  border-top: 1px solid #2a2e35;
+
   padding-top: 1rem;
   margin-top: 1rem;
 }
@@ -140,17 +133,17 @@ body {
 
 
 
- .auth-btn {
-   margin-top: 10px;
-   font-weight: 600;
-   letter-spacing: 0.5px;
-   background-color: #61A7D7;
-   border-color: #81C7F7;
- }
- .auth-btn:hover {
-   background-color: #8fCfFf;
-   border-color: #000;
- }
+.auth-btn {
+  margin-top: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-color: #555;
+  color: #000;
+}
+.auth-btn:hover {
+  background-color: #0d6efd;
+  color: #fff;
+}
 
 
 
@@ -160,17 +153,19 @@ body {
   text-decoration: none;
 }
 .link-add-compressor:hover {
-  color: #fafafa;
+  color: #0d6efd;
 }
 
 
 .link-list li {
   color: #000;
   cursor: pointer;
+  margin: 2px;
+  border: none;
 }
 
 .link-list li:hover {
-  background-color: #61A7D7;
+  background-color: #0d6efd;
   color: #fafafa;
 }
 
@@ -185,8 +180,8 @@ body {
 }
 
 .param-item {
-  background: #61A7D7;
-  border: 1px solid #2a2e35;
+  background: #ffffff;
+  border: 1px solid #000;
   border-radius: 6px;
   padding: 10px 12px;
 }
@@ -218,14 +213,14 @@ body {
   padding: 4px 0;
   border-radius: 4px;
   border: 1px solid #000;
-  background: #8fCfFf;
+  background: #ffffff;
   color: #000;
   font-size: 0.9rem;
   cursor: pointer;
 }
 
 .param-edit-btn:hover {
-  background: #81C7F7;
+  background: #0d6efd;
   color: #fafafa;
 }
 
