@@ -97,7 +97,7 @@ public class CompressorWebSocketHandler extends TextWebSocketHandler {
 
                 if (chance < 0) {
                     newValue = createAccidentSituation(min, max);
-                } else if (chance < 50) {
+                } else if (chance < 10) {
                     newValue = createWarningSituation(min, max);
                 } else {
                     double currentValue = (min + max) / 2.0;

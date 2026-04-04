@@ -66,4 +66,12 @@ public class UserService {
                 .filter(User::isInWork)
                 .findFirst();
     }
+
+    public void save(User user)  {
+        userRepository.save(user);
+    }
+
+    public long countByRole(String role) {
+        return userRepository.countByRole(role);
+    }
 }

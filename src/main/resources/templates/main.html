@@ -97,6 +97,11 @@
                         th:onclick="'location.href=\'' + '/openCloseShift' + '\';'">
                         Заступить на смену / Закрыть смену
                     </li>
+                    <li sec:authorize="hasAnyRole('ADMIN')"
+                        th:if="${user.role == 'admin'}"
+                        th:onclick="'location.href=\'' + '/select-station' + '\';'">
+                        Сменить станцию
+                    </li>
 
                     <li sec:authorize="hasAnyRole('MANAGER','ADMIN')"
                         th:onclick="'location.href=\'' + '/addModel' + '\';'">

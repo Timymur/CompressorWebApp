@@ -8,9 +8,12 @@ import com.example.CompressorWebApp.services.CompressorService;
 import com.example.CompressorWebApp.services.StationService;
 import com.example.CompressorWebApp.services.UserService;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,19 +34,35 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String Home(Model model) {
+    public String Home(Model model, HttpSession session) {
 
         User user = userService.GetCurrentUser();
         if (user == null) return "auth";
 
         model.addAttribute("user", user);
+        Station station = null;
 
+        if(user.getRole().equals("admin")){
+            Long selectedStationId = (Long) session.getAttribute("selectedStationId");
+            if (selectedStationId == null) {
+                return "redirect:/select-station";
+            }
+            Optional<Station> optStation = stationService.findById(selectedStationId);
+            if (optStation.isPresent()) {
+                station = optStation.get();
+            } else {
 
-        Station station = user.getStation();
-        if (station == null) {
-            model.addAttribute("nullStation", "Вы не относитесь ни к одной станции");
-            return "home";
+                session.removeAttribute("selectedStationId");
+                return "redirect:/select-station";
+            }
+        }else{
+            station = user.getStation();
+            if (station == null) {
+                model.addAttribute("nullStation", "Вы не относитесь ни к одной станции");
+                return "home";
+            }
         }
+
 
         model.addAttribute("station", station);
 
@@ -70,6 +89,33 @@ public class MainController {
     public String Logout(Model model) {
         model.addAttribute("title", "Выход");
         return "logout";
+    }
+
+    @GetMapping("/select-station")
+    public String selectStation(Model model, HttpSession session) {
+        User user = userService.GetCurrentUser();
+        if (user == null) return "auth";
+
+        if (!user.getRole().equals("admin")) {
+            return "redirect:/"; // не админ – на главную
+        }
+
+        List<Station> stations = stationService.findAll();
+        model.addAttribute("stations", stations);
+        return "select-station";
+    }
+
+    @PostMapping("/select-station")
+    public String selectStationPost(@RequestParam Long stationId, HttpSession session) {
+        User user = userService.GetCurrentUser();
+        if (user == null) return "auth";
+
+        if (!user.getRole().equals("admin")) {
+            return "redirect:/";
+        }
+
+        session.setAttribute("selectedStationId", stationId);
+        return "redirect:/";
     }
 
 
