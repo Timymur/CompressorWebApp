@@ -99,7 +99,7 @@ public class UserController {
         Station station = user.getStation();
         if (station == null) {
             model.addAttribute("nullStation", "Вы не относитесь ни к одной станции");
-            return "home";
+            return "auth";
         }
         model.addAttribute("station", station);
 

@@ -59,7 +59,7 @@ public class MainController {
             station = user.getStation();
             if (station == null) {
                 model.addAttribute("nullStation", "Вы не относитесь ни к одной станции");
-                return "home";
+                return "auth";
             }
         }
 
@@ -97,7 +97,7 @@ public class MainController {
         if (user == null) return "auth";
 
         if (!user.getRole().equals("admin")) {
-            return "redirect:/"; // не админ – на главную
+            return "redirect:/";
         }
 
         List<Station> stations = stationService.findAll();

@@ -24,6 +24,14 @@ public class Parameter {
         this.unitOfMeasurement = unitOfMeasurement;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getParameterName() {
         return parameterName;
     }

@@ -30,9 +30,7 @@ public class UserService {
         String login = auth.getName();
 
         return findByLogin(login);
-
     }
-
 
     public User findByLogin(String login) {
         return userRepository.findByLogin(login);
